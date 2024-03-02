@@ -5,10 +5,17 @@ init:
 	pip install -r requirements.txt
 
 test:
-	nosetests ./tests/
+	rm -f .coverage
+	pytest
 
-travis:
-	nosetests ./tests/
+tag:
+	python create_tag.py
 
-tdaemon:
-	tdaemon -t nose ./tests/ --custom-args="--with-growl"
+publish:
+	rm -rf dist
+	python -m build
+	twine upload dist/*
+
+venv:
+	virtualenv venv
+	venv/bin/pip install -r requirements.txt
